@@ -3,46 +3,38 @@ import { useSelector } from "react-redux";
 import Todo from "../Todo/Todo";
 
 const TodosList = ({ complete }) => {
-    //States
-    const todos = useSelector((state) => state.todosReducer.todos);
-    const [filteredTodos, setFilteredTodos] = useState([]);
-    // Functions
+  const todos = useSelector((state) => state.todosReducer.todos);
+  const [filteredTodos, setFilteredTodos] = useState([]);
 
-    useEffect(() => {
-        filterTodos();
-    }, [filteredTodos]);
+  useEffect(() => {
+    filterTodos();
+  }, [todos]);
 
-    const filterTodos = () => {
-        switch (complete) {
-            case "achieved":
-                setFilteredTodos(
-                    todos.filter((task) => task.completed === true)
-                );
+  const filterTodos = () => {
+    switch (complete) {
+      case "achieved":
+        setFilteredTodos(todos.filter((task) => task.completed === true));
+        break;
 
-                break;
-            case "unachieved":
-                setFilteredTodos(
-                    todos.filter((task) => task.completed === false)
-                );
+      case "unachieved":
+        setFilteredTodos(todos.filter((task) => task.completed === false));
+        break;
 
-                break;
+      default:
+        setFilteredTodos(todos);
+        break;
+    }
+  };
 
-            default:
-                setFilteredTodos(todos);
-                break;
-        }
-    };
-    // console.log(filteredTodos);
-
-    return (
-        <div className="container">
-            <ul className="todo_list">
-                {filteredTodos.map((task, i) => (
-                    <Todo task={task} key={task.id} />
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <div className="container">
+      <ul className="todo_list">
+        {filteredTodos.map((task, i) => (
+          <Todo task={task} key={task.id} />
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default TodosList;
